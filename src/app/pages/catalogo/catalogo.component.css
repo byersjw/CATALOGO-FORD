@@ -1,0 +1,28 @@
+/*
+Este componente usa primariamente classes do Tailwind CSS (como bg-white, shadow-md, etc.)
+que devem ser configuradas globalmente no seu projeto Angular.
+
+As classes de cores customizadas no seu HTML original são:
+- bg-fordOrange
+- hover:bg-fordBlue
+*/
+
+/* Definições de cores customizadas, caso não estejam no tailwind.config.js */
+.bg-fordOrange {
+    background-color: #ff5722; /* Exemplo de cor laranja para Ford */
+}
+
+.hover\:bg-fordBlue:hover {
+    background-color: #1565c0; /* Exemplo de cor azul para Ford */
+}
+
+/* Garanti que as classes de transição (ml-64, ml-0, hidden) funcionem corretamente
+usando o [class.classe]="propriedade" no HTML.
+*/
+
+/* Opcional: Adicionar estilos para o estado 'active' da sidebar em mobile, se necessário */
+@media (max-width: 767px) {
+    .sidebar.active {
+        display: block !important; /* Sobrescreve 'hidden' em mobile quando ativada */
+    }
+}

@@ -1,0 +1,11 @@
+.bg-ford-pattern {
+    background-image: url('https://lartbr.com.br/wp-content/uploads/2022/07/IMG_5331.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.login-card {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.85);
+}
+

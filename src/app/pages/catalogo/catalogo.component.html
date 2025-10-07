@@ -1,0 +1,96 @@
+<div class="h-screen bg-gray-100 flex overflow-hidden">
+    @if (isSidebarActive || windowWidth >= 768) {
+        <div 
+            class="sidebar fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-xl transition-all duration-300"
+            [class.hidden]="!isSidebarActive && windowWidth < 768"
+            [class.active]="isSidebarActive"
+        >
+            <div class="p-6">
+                <h2 class="text-2xl font-bold text-fordOrange">Ford Veiculos</h2>
+                <nav class="mt-10">
+                    <a href="#" class="flex items-center mt-4 py-2 px-4 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300">
+                        <span class="mr-3">📋</span>
+                        Catálogo
+                    </a>
+                    <a (click)="onLogout()" id="logoutBtn" 
+                       class="flex items-center mt-4 py-2 px-4 text-gray-700 rounded-lg hover:bg-red-100 hover:text-red-600 cursor-pointer">
+                        <span class="mr-3">🚪</span>
+                        Sair
+                    </a>
+                </nav>
+            </div>
+        </div>
+    }
+
+    <div 
+        class="main-content flex-1 overflow-x-hidden overflow-y-auto transition-all duration-300"
+        [class.ml-64]="isSidebarActive && windowWidth >= 768"
+        [class.ml-0]="!isSidebarActive || windowWidth < 768"
+    >
+        <header class="bg-white shadow z-10 sticky top-0">
+            <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+                @if (windowWidth < 768) {
+                    <button (click)="toggleSidebar()" id="toggleSidebar" 
+                            class="text-gray-500 focus:outline-none focus:text-gray-900 md:hidden">
+                        <span class="w-6 h-6">☰</span>
+                    </button>
+                }
+                <h1 class="text-3xl font-bold leading-tight text-gray-900">
+                    Catálogo de Veículos Ford
+                </h1>
+            </div>
+        </header>
+
+        <main>
+            <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                <div class="px-4 py-6 sm:px-0">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        
+                        @for (vehicle of vehicles; track vehicle.name) {
+                            <div class="vehicle-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                                
+                                <img [src]="vehicle.imgSrc" [alt]="vehicle.name" class="w-full h-48 object-cover">
+                                
+                                <div class="p-5">
+                                    <h3 class="text-xl font-bold text-gray-900 mb-2">{{ vehicle.name }}</h3>
+                                    <div class="space-y-2 text-sm text-gray-600">
+                                        
+                                        <div class="flex justify-between">
+                                            <span>Preço médio:</span>
+                                            <span class="font-medium">{{ vehicle.price }}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span>Tração:</span>
+                                            <span class="font-medium">{{ vehicle.traction }}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span>Motor:</span>
+                                            <span class="font-medium">{{ vehicle.engine }}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span>Potencia:</span>
+                                            <span class="font-medium">{{ vehicle.power }}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span>Consumo:</span>
+                                            <span class="font-medium">{{ vehicle.consumption }}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <a [href]="vehicle.link" target="_blank" rel="noopener noreferrer"
+                                        class="mt-4 block text-center w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-fordOrange hover:bg-fordBlue transition duration-300">
+                                        Explorar mais
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        @empty {
+                            <p class="col-span-full text-center text-gray-500">Nenhum veículo encontrado no catálogo.</p>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
