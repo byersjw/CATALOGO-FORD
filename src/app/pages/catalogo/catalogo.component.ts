@@ -1,4 +1,6 @@
 import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 // Interface para estruturar os dados do veículo
 interface Vehicle {
@@ -139,7 +141,9 @@ export class CatalogoComponent implements OnInit { // NOVO NOME DA CLASSE
     }
   ];
 
-  constructor() { }
+  constructor(private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     // Define o estado inicial da sidebar com base na largura da tela
@@ -180,8 +184,9 @@ export class CatalogoComponent implements OnInit { // NOVO NOME DA CLASSE
 
   // Lógica do Logout
   onLogout(): void {
-    alert("Você foi desconectado.");
-    console.log('Redirecionando para login.html...');
+    this.authService.logout();
+    this.router.navigate(['/login']); // Redireciona para a página de login usando Angular Router
+    
     // Em uma aplicação Angular real, usaríamos o Router
     // Ex: this.router.navigate(['/login']);
   }

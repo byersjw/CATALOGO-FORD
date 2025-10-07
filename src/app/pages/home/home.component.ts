@@ -1,7 +1,7 @@
 // src/app/pages/home/home.component.ts
 import { Component, OnInit, AfterViewInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterOutlet } from '@angular/router'; // Para navegação
+import { RouterLink} from '@angular/router'; // Para navegação
 import { AuthService } from '../../services/auth.service'; // Importa o serviço
 
 // Declaração para o Feather Icons (se estiver carregado globalmente)
@@ -11,7 +11,7 @@ declare var feather: any;
   selector: 'app-home',
   // O componente precisa ser standalone ou importado em um módulo
   standalone: true, 
-  imports: [CommonModule, RouterLink, RouterOutlet], 
+  imports: [CommonModule, RouterLink], 
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'] 
 })

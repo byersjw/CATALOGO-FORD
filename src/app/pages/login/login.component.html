@@ -1,187 +1,119 @@
-<div class="login-card rounded-xl shadow-2xl overflow-hidden w-full max-w-md">
-    <div class="bg-fordBlue p-6 text-center">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Ford_logo.svg/2560px-Ford_logo.svg.png" alt="Ford Logo" class="h-12 mx-auto">
-        <h1 class="text-white text-2xl font-bold mt-4">Boas Vindas!</h1>
-    </div>
-    
-    <div class="p-8">
-        <div 
-            *ngIf="message.text" 
-            [ngClass]="{
-                'bg-green-100 text-green-800': message.type === 'success',
-                'bg-red-100 text-red-800': message.type === 'error'
-            }"
-            class="p-3 mb-4 rounded-md text-sm font-medium transition-opacity duration-300">
-            {{ message.text }}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Ford_logo.svg/2560px-Ford_logo.svg.png" alt="Ford Logo" class="login-logo">
+            <h1 class="login-title">Boas Vindas!</h1>
         </div>
+        
+        <div class="login-body">
+            <div *ngIf="message.text" [ngClass]="{'success-msg': message.type==='success', 'error-msg': message.type==='error'}" class="message">
+                {{ message.text }}
+            </div>
 
-        <form 
-            [formGroup]="loginForm" 
-            (ngSubmit)="onLoginSubmit()" 
-            class="space-y-6" 
-            *ngIf="!isRegisterMode">
-            
-            <div>
-                <label for="username" class="block text-sm font-medium text-gray-700">Email</label>
-                <div class="mt-1 relative rounded-md shadow-sm">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i data-feather="mail" class="text-gray-400"></i>
+            <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" *ngIf="!isRegisterMode">
+                <div class="form-group">
+                    <label for="username">Email</label>
+                    <div class="input-wrapper">
+                        <i data-feather="mail" class="input-icon"></i>
+                        <input type="text" id="username" formControlName="username">
                     </div>
-                    <input 
-                        type="text" 
-                        id="username" 
-                        formControlName="username" 
-                        class="focus:ring-fordOrange focus:border-fordOrange block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 px-4 border">
                 </div>
-            </div>
 
-            <div>
-                <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
-                <div class="mt-1 relative rounded-md shadow-sm">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i data-feather="lock" class="text-gray-400"></i>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <div class="input-wrapper">
+                        <i data-feather="lock" class="input-icon"></i>
+                        <input type="password" id="password" formControlName="password">
                     </div>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        formControlName="password" 
-                        class="focus:ring-fordOrange focus:border-fordOrange block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 px-4 border">
                 </div>
-            </div>
 
-            <div class="flex items-center">
-                <input 
-                    id="terms" 
-                    type="checkbox" 
-                    formControlName="terms" 
-                    class="h-4 w-4 text-fordOrange focus:ring-fordOrange border-gray-300 rounded">
-                <label for="terms" class="ml-2 block text-sm text-gray-700">
-                    Concordo com os <a (click)="openTermsModal($event)" class="text-fordBlue font-medium hover:text-fordOrange cursor-pointer">Termos e Condições</a> (LGPD)
-                </label>
-            </div>
-            
-            <div>
-                <button 
-                    type="submit" 
-                    [disabled]="loginForm.invalid"
-                    class="w-full flex bg-black justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-fordOrange hover:bg-fordBlue transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fordOrange disabled:opacity-50">
-                    Entrar
-                </button>
-            </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="terms" formControlName="terms">
+                    <label for="terms">
+                        Concordo com os <a (click)="openTermsModal($event)">Termos e Condições</a> (LGPD)
+                    </label>
+                </div>
 
-            <div class="text-center text-sm mt-4">
-                <p class="text-gray-600">Não tem uma conta? <a (click)="toggleMode(true)" class="text-fordBlue font-medium hover:text-fordOrange cursor-pointer">Criar conta</a></p>
-            </div>
-        </form>
+                <div class="form-group">
+                    <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
+                </div>
 
-        <form 
-            [formGroup]="registerForm" 
-            (ngSubmit)="onRegisterSubmit()" 
-            class="space-y-4" 
-            *ngIf="isRegisterMode">
-            
-            <div>
-                <label for="regName" class="block text-sm font-medium text-gray-700">Nome Completo</label>
-                <div class="mt-1 relative rounded-md shadow-sm">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i data-feather="user" class="text-gray-400"></i>
+                <div class="text-center">
+                    <p>Não tem uma conta? <a (click)="toggleMode(true)">Criar conta</a></p>
+                </div>
+            </form>
+
+            <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()" *ngIf="isRegisterMode">
+                <div class="form-group">
+                    <label for="regName">Nome Completo</label>
+                    <div class="input-wrapper">
+                        <i data-feather="user" class="input-icon"></i>
+                        <input type="text" id="regName" formControlName="regName">
                     </div>
-                    <input type="text" id="regName" formControlName="regName" class="focus:ring-fordOrange focus:border-fordOrange block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 px-4 border">
                 </div>
-                <p *ngIf="registerForm.get('regName')?.invalid && (registerForm.get('regName')?.dirty || registerForm.get('regName')?.touched)" class="text-xs text-red-500 mt-1">O nome é obrigatório.</p>
-            </div>
 
-            <div>
-                <label for="regEmail" class="block text-sm font-medium text-gray-700">Email</label>
-                <div class="mt-1 relative rounded-md shadow-sm">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i data-feather="mail" class="text-gray-400"></i>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <div class="input-wrapper">
+                        <i data-feather="mail" class="input-icon"></i>
+                        <input type="email" id="regEmail" formControlName="regEmail">
                     </div>
-                    <input type="email" id="regEmail" formControlName="regEmail" class="focus:ring-fordOrange focus:border-fordOrange block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 px-4 border">
                 </div>
-            </div>
-            
-            <div>
-                <label for="regPassword" class="block text-sm font-medium text-gray-700">Senha</label>
-                <div class="mt-1 relative rounded-md shadow-sm">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i data-feather="lock" class="text-gray-400"></i>
+
+                <div class="form-group">
+                    <label for="regPassword">Senha</label>
+                    <div class="input-wrapper">
+                        <i data-feather="lock" class="input-icon"></i>
+                        <input type="password" id="regPassword" formControlName="regPassword">
                     </div>
-                    <input type="password" id="regPassword" formControlName="regPassword" class="focus:ring-fordOrange focus:border-fordOrange block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 px-4 border">
                 </div>
-            </div>
 
-            <div>
-                <label for="regConfirmPassword" class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
-                <div class="mt-1 relative rounded-md shadow-sm">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i data-feather="lock" class="text-gray-400"></i>
+                <div class="form-group">
+                    <label for="regConfirmPassword">Confirmar Senha</label>
+                    <div class="input-wrapper">
+                        <i data-feather="lock" class="input-icon"></i>
+                        <input type="password" id="regConfirmPassword" formControlName="regConfirmPassword">
                     </div>
-                    <input type="password" id="regConfirmPassword" formControlName="regConfirmPassword" class="focus:ring-fordOrange focus:border-fordOrange block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 px-4 border">
                 </div>
-                <p *ngIf="registerForm.errors?.['mismatch'] && (registerForm.get('regConfirmPassword')?.dirty || registerForm.get('regConfirmPassword')?.touched)" class="text-xs text-red-500 mt-1">As senhas não coincidem.</p>
-            </div>
 
+                <div class="form-group checkbox-group">
+                    <input id="regTerms" type="checkbox" formControlName="regTerms">
+                    <label for="regTerms">
+                        Concordo com os <a (click)="openTermsModal($event)">Termos e Condições</a>
+                    </label>
+                </div>
 
-            <div class="flex items-center">
-                <input id="regTerms" type="checkbox" formControlName="regTerms" class="h-4 w-4 text-fordOrange focus:ring-fordOrange border-gray-300 rounded">
-                <label for="regTerms" class="ml-2 block text-sm text-gray-700">
-                    Concordo com os <a (click)="openTermsModal($event)" class="text-fordBlue font-medium hover:text-fordOrange cursor-pointer">Termos e Condições</a>
-                </label>
-            </div>
-
-            <div class="flex space-x-4">
-                <button 
-                    type="submit" 
-                    [disabled]="registerForm.invalid"
-                    class="flex-1 justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-fordOrange hover:bg-fordBlue transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fordOrange disabled:opacity-50">
-                    Registrar
-                </button>
-                <button 
-                    type="button" 
-                    (click)="toggleMode(false)"
-                    class="flex-1 justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fordOrange">
-                    Voltar
-                </button>
-            </div>
-        </form>
+                <div class="form-group buttons">
+                    <button type="submit" [disabled]="registerForm.invalid">Registrar</button>
+                    <button type="button" (click)="toggleMode(false)">Voltar</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div id="termsModal" 
-    *ngIf="isTermsModalOpen" 
-    class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-    <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-2/3 lg:w-1/2 shadow-lg rounded-md bg-white">
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-bold text-fordBlue">Termos e Condições - LGPD</h3>
-            <button (click)="closeTermsModal()" class="text-gray-500 hover:text-fordOrange">
-                <i data-feather="x"></i>
-            </button>
+<div id="termsModal" *ngIf="isTermsModalOpen" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Termos e Condições - LGPD</h3>
+            <button (click)="closeTermsModal()"><i data-feather="x"></i></button>
         </div>
-        <div class="overflow-y-auto max-h-96 text-sm text-gray-700">
-            <p class="mb-4">A Ford Brasil Ltda., inscrita no CNPJ/MF sob o nº 16.429.147/0001-54, com sede na Rodovia Presidente Dutra, Km 210, CEP 12239-900, São José dos Campos/SP, leva a privacidade e a proteção de dados a sério.</p>
-            
-            <h4 class="font-bold mt-4 mb-2 text-fordBlue">1. Coleta de Dados</h4>
-            <p class="mb-4">Coletamos informações pessoais como nome, e-mail, telefone e dados de veículos quando você interage conosco através deste sistema.</p>
-            
-            <h4 class="font-bold mt-4 mb-2 text-fordBlue">2. Uso dos Dados</h4>
-            <p class="mb-4">Utilizamos seus dados para: fornecer acesso ao sistema, melhorar nossos serviços, enviar comunicações relevantes sobre produtos Ford e cumprir obrigações legais.</p>
-            
-            <h4 class="font-bold mt-4 mb-2 text-fordBlue">3. Compartilhamento</h4>
-            <p class="mb-4">Seus dados podem ser compartilhados com concessionárias autorizadas Ford e parceiros de negócios, sempre com medidas de segurança adequadas.</p>
-            
-            <h4 class="font-bold mt-4 mb-2 text-fordBlue">4. Direitos do Titular</h4>
-            <p class="mb-4">Você tem direito a acessar, corrigir, excluir ou portar seus dados, além de poder revogar consentimentos através do canal fordprivacidade.com.br.</p>
-            
-            <h4 class="font-bold mt-4 mb-2 text-fordBlue">5. Medidas de Segurança</h4>
-            <p class="mb-4">Implementamos medidas técnicas e administrativas para proteger seus dados contra acessos não autorizados e situações acidentais ou ilícitas.</p>
-            
-            <p class="mt-6 text-sm">Última atualização: 01/01/2023</p>
+        <div class="modal-body">
+            <p>A Ford Brasil Ltda., inscrita no CNPJ/MF sob o nº 16.429.147/0001-54, ...</p>
+            <h4>1. Coleta de Dados</h4>
+            <p>Coletamos informações pessoais ...</p>
+            <h4>2. Uso dos Dados</h4>
+            <p>Utilizamos seus dados para ...</p>
+            <h4>3. Compartilhamento</h4>
+            <p>Seus dados podem ser compartilhados ...</p>
+            <h4>4. Direitos do Titular</h4>
+            <p>Você tem direito a acessar ...</p>
+            <h4>5. Medidas de Segurança</h4>
+            <p>Implementamos medidas técnicas ...</p>
+            <p>Última atualização: 01/01/2023</p>
         </div>
-        <div class="mt-4 flex justify-end">
-            <button (click)="acceptTerms()" class="px-4 py-2 bg-black text-white text-sm font-medium rounded-md hover:bg-fordBlue transition duration-300">
-                Aceitar Termos
-            </button>
+        <div class="modal-footer">
+            <button (click)="acceptTerms()">Aceitar Termos</button>
         </div>
     </div>
 </div>
